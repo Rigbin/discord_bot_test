@@ -20,11 +20,12 @@ async def on_message(message):
         return
 
     if message.content.startswith('$hello'):
+        # instead of sending message back to channel, start direct message with user
         dm = await message.author.create_dm()
         dmessage = await dm.send(f'Hello {message.author.display_name}!\nWelche Klasse spielst du?')
 
+        # add emoji to react to dmessage .... emojis have to be added to server!
         wow_classes_emojis = [":Warrior:839571089474322503", ":Rouge:839571089726504981", ":Hunter:839571088987521038"]
-
         for react in wow_classes_emojis:
             await dmessage.add_reaction(react)
 
@@ -40,6 +41,7 @@ async def on_message(message):
         try:
             # https://stackoverflow.com/questions/63837615/multiple-choice-reaction-python-discord-py
             # it looks like he uses an adiitional library (discord.ext) ?!, `client` is wrong at this place!
+            # TODO!!!
             res, user = await client.wait_for('reaction_add', check=check_react)
         except asyncio.TimoutError:
             return await dmessage.clear_reactions()
